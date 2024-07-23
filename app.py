@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, flash
 import sqlite3
+
 app = Flask(__name__)
 app.secret_key = 'S3Cfnweas!elks#$!j23'
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
         if request.method == 'POST':

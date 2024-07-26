@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset='utf-8'>
-	<link rel='stylesheet' href = "{{ url_for('static', filename='style.css') }}">
-	<title>Login Page</title>
+    <meta charset='utf-8'>
+    <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
+    <title>Login Page</title>
 </head>
 <body>
-	<center>
-		<h1>Login Page</h1>
-			<form method="POST">
-		<br><br>
-		<input type="email" name="email" placeholder="Email">
-		<br>
-		<input type="password" name="password" placeholder="Password">
-		<br>
-		<input type="submit" name="submit">
-		<br>
-		<a href="/register">New user? Register here.</a>
-	</center>
+    
+    <center>
+        {% block content %}
+        <h2>Login</h2>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.email.label }} {{ form.email() }}<br><br>
+            {{ form.password.label }} {{ form.password() }}<br><br>
+            {{ form.submit() }}
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+        {% endblock %}
+    </center>
 </body>
 </html>

@@ -6,7 +6,8 @@
     <title>Register</title>
 </head>
 <body>
-    <h1>Register</h1>
+    <center>
+        <h1>Register</h1>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for msg in messages %}
@@ -14,14 +15,14 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-    <form method="POST" action="/register">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.email.label }} {{ form.email() }}<br><br>
+            {{ form.password.label }} {{ form.password() }}<br><br>
+            {{ form.submit() }}
+        </form>
         <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        <br>
-        <button type="submit">Register</button>
-    </form>
+        <a href='/'>Return to home page.</a>
+    </center>
 </body>
 </html>

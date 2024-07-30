@@ -8,7 +8,7 @@ from functools import wraps
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'W0rk1MS9ST$%#M!'
+app.config['SECRET_KEY'] = 'xxx'
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired(), Email()])

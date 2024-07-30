@@ -103,7 +103,7 @@ def event_creation():
         # Combine date and time
         start_datetime = f"{event_date}T{event_time}"
         
-        # Assume event duration is 1 hour for this example
+        # Assume event duration is 1 hour (temporary)
         end_datetime = datetime.fromisoformat(start_datetime) + timedelta(hours=1)
         end_datetime = end_datetime.isoformat()
 

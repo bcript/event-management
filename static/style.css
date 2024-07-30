@@ -1,0 +1,80 @@
+html {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #FAF8F4;
+}
+
+body {
+    margin: 0px;
+}
+
+main {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.navbar ul{
+    background-color: #01071c;
+    list-style-type: none;
+    padding: 20px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.navbar a{
+    color: #FAF8F4;
+    text-decoration: none;
+    padding: 15px;
+    text-align: center;
+    margin-right: 40px;
+}
+
+.navbar a:hover{
+    background-color: #0D221B(0, 0%, 10%);
+}
+
+.navbar li{
+    display: inline-block;
+    color: white;
+}
+
+.button {
+    background-color: #0c37c4; /* Green */
+    border-radius: 15px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+input,
+input::placeholder {
+  font-size: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  display: block;
+}
+.create_event {
+  margin-top: 20px;
+  border-width: 10px;
+  border-color: black;
+}
+
+.create_event label {
+  font-size: 13px;
+}
+
+textarea,
+textarea::placeholder {
+    font-size: 12px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#calendar {
+    max-width: 780px;
+    margin-left: 400px;
+    margin-top: -100px;
+}

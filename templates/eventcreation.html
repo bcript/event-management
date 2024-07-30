@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<link rel='stylesheet' href = "{{ url_for('static', filename='style.css') }}">
+	<title>Student Dashboard Home</title>
+</head>
+<body>
+	<center>
+		<nav class="navbar">
+			<ul>
+				<li><a href='https://github.com/bcript/'>Developer</a></li>
+				<li><a href='/profile'>Profile</a></li>
+				<li><a href='/dashboard'>Home</a></li>
+			</ul>
+		</nav>
+	</center>
+    <!-- 1. To add a feature where the date and time is chosen from a calendar UI to ensure effective booking
+     2. To add a feature where selection of members for events, budget and capacity etc. -->
+    <div id="create-event-form">
+        <center>
+            <form class="create_event" method="POST">
+                <label for="name">Name of event:&nbsp;</label>
+                <input type="text" name="name" id="name" placeholder="Name of event?"><br>
+                <!-- temporary -->
+                <label for="date">Date of event:&nbsp;</label>
+                <input type="date" name="date" id="date" placeholder="Date of event?"><br>
+                <label for="time">Time of event:</label>
+                <input type="time" name="time" id="time" placeholder="Time of event?"><br>
+                <!-- temporary -->
+                <label for="description">Description of event:</label><br>
+                <textarea name="event_description" rows="4" cols="50" placeholder="Description of event?"></textarea>
+                <input type="submit" name="submit" id="submit" value="Create Event">
+            </form>
+        </center>
+    </div>
+</body>
+</html>

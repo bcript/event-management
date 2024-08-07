@@ -6,34 +6,49 @@
 	<title>Student Dashboard Home</title>
 </head>
 <body>
-	<center>
-		<nav class="navbar">
+    <center>
+        <nav class="navbar">
 			<ul>
-                		<li><a href='/dashboard'>Home</a></li>
+                <li><a href='/dashboard'>Home</a></li>
 				<li><a href='/profile'>Account</a></li>
 				<li><a href='https://github.com/bcript/'>About Me</a></li>
-                		<li><a href='/logout'>Logut</a></li>
+                <li><a href='/logout'>Logout</a></li>
 			</ul>
-		</nav>
-	</center>
+        </nav>
+    </center>
     <!-- 1. To add a feature where the date and time is chosen from a calendar UI to ensure effective booking
      2. To add a feature where selection of members for events, budget and capacity etc. -->
-    <div id="create-event-form">
-        <center>
-            <form class="create_event" method="POST">
-                <label for="name">Name of event:&nbsp;</label>
-                <input type="text" name="name" id="name" placeholder="Name of event?"><br>
-                <!-- temporary -->
-                <label for="date">Date of event:&nbsp;</label>
-                <input type="date" name="date" id="date" placeholder="Date of event?"><br>
-                <label for="time">Time of event:</label>
-                <input type="time" name="time" id="time" placeholder="Time of event?"><br>
-                <!-- temporary -->
-                <label for="description">Description of event:</label><br>
-                <textarea name="event_description" rows="4" cols="50" placeholder="Description of event?"></textarea>
-                <input type="submit" name="submit" id="submit" value="Create Event">
-            </form>
-        </center>
-    </div>
+    <center>
+        <form class="create_event" method="POST" onsubmit="return validateForm()">
+            <label for="name">Name of event:&nbsp;</label>
+            <input type="text" name="name" id="name" placeholder="Name of event?"><br>
+            <!-- temporary -->
+            <label for="start_date">Start event date:&nbsp;</label>
+            <input type="date" name="start_date" id="start_date" placeholder="Start date of event?"><br>
+            <label for="start_time">Start event time:</label>
+            <input type="time" name="start_time" id="start_time" placeholder="Start time of event?"><br>
+            <label for="end_date">End event date:&nbsp;</label>
+            <input type="date" name="end_date" id="end_date" placeholder="End date of event?"><br>
+            <label for="end_time">End event time:</label>
+            <input type="time" name="end_time" id="end_time" placeholder="End time of event?"><br>  
+            <!-- temporary -->
+            <label for="description">Description of event:</label><br>
+            <textarea name="event_description" rows="4" cols="50" placeholder="Description of event?"></textarea>
+            <input type="submit" name="submit" id="submit" value="Create Event">
+        </form>
+    </center>
+
+    <script>
+    function validateForm() {
+        var startDate = new Date(document.getElementById('start_date').value + 'T' + document.getElementById('start_time').value);
+        var endDate = new Date(document.getElementById('end_date').value + 'T' + document.getElementById('end_time').value);
+
+        if (endDate <= startDate) {
+            alert('End date and time must be after start date and time.');
+            return false;
+        }
+        return true;
+    }
+    </script>
 </body>
 </html>

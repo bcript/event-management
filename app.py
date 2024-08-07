@@ -29,6 +29,7 @@ def init_db():
     db = get_db()
     db.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT UNIQUE NOT NULL, password TEXT NOT NULL)')
     db.execute('CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, start_date TEXT, end_date TEXT, description TEXT, FOREIGN KEY (user_id) REFERENCES users (id))')
+    db.execute('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, event_id INTEGER, description TEXT, completed BOOLEAN, FOREIGN KEY (event_id) REFERENCES events (id))')
     db.close()
 
 init_db()
@@ -103,8 +104,6 @@ def event_creation():
         # Combine date and time
         start_datetime = f"{event_date}T{event_time}"
         
-        # Assume event duration is 1 hour (temporary)
-        end_datetime = datetime.fromisoformat(start_datetime) + timedelta(hours=1)
         end_datetime = end_datetime.isoformat()
 
         db = get_db()
@@ -116,11 +115,6 @@ def event_creation():
         return redirect(url_for('dashboard'))
     else:
         return render_template('eventcreation.html')
-
-@app.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html')
 
 @app.route('/calendar')
 @login_required
@@ -135,15 +129,29 @@ def events():
     
     event_list = []
     for event in events:
+        tasks = db.execute('SELECT id, description, completed FROM tasks WHERE event_id = ?', (event['id'],)).fetchall()
         event_list.append({
             'id': event['id'],
             'title': event['name'],
             'start': event['start_date'],
             'end': event['end_date'],
-            'description': event['description']
+            'description': event['description'],
+            'tasks': [{'id': task['id'], 'description': task['description'], 'completed': task['completed']} for task in tasks]
         })
     
     return jsonify(event_list)
 
+@app.route('/add_task', methods=['POST'])
+@login_required
+def add_task():
+    event_id = request.form.get('event_id')
+    task_description = request.form.get('task_description')
+    
+    db = get_db()
+    db.execute('INSERT INTO tasks (event_id, description, completed) VALUES (?, ?, ?)',
+               (event_id, task_description, False))
+    db.commit()
+    
+    return jsonify({'success': True})
 if __name__ == '__main__':
     app.run(debug=True, port=3333)

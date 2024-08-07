@@ -59,8 +59,13 @@ input::placeholder {
 }
 .create_event {
   margin-top: 20px;
-  border-width: 10px;
-  border-color: black;
+  border: 2px solid black;
+  margin: auto 0;
+  display: block;
+  max-width: 500px;
+  margin-top: 10px;
+  padding-bottom: 20px;
+  border-radius: 10px;
 }
 
 .create_event label {

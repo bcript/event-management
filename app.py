@@ -1,3 +1,5 @@
+# credits to https://www.youtube.com/watch?v=VXW2A4Q81Ok for tutorial on full calendar
+
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField

@@ -68,10 +68,10 @@
     <h3 style="margin-left: 30px;">Event Planner</h3>
     <a href="/event-creation" class="button">Create Event</a>
 
-    <!-- calendar container -->
+    <!-- Calendar container -->
     <div id='calendar'></div>
 
-    <!-- modal for event details -->
+    <!-- Modal for event details -->
     <div id="eventModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -119,14 +119,14 @@
                     $('#newTaskDescription').val('');
                     $('#addTaskForm').show();
 
-                    // Set the current event id for the task form
+                    // Set the current event ID for the task form
                     $('#addTaskForm').data('event-id', event.id);
 
                     $('#eventModal').css('display', 'block');
                 }
             });
 
-            // Close the modal when clicking on x
+            // Close the modal when clicking on <span> (x)
             $('.close').on('click', function() {
                 $('#eventModal').css('display', 'none');
             });
@@ -156,5 +156,77 @@
             });
         });
     </script>
+</body>
+</html>
+    
+    <script>
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                events: '/events',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                eventClick: function(event, jsEvent, view) {
+                    $('#eventTitle').text(event.title);
+                    $('#eventDescription').text(event.description);
+                    $('#eventTime').text('Start: ' + event.start.format('MMMM Do YYYY, h:mm:ss a') + 
+                                         '\nEnd: ' + event.end.format('MMMM Do YYYY, h:mm:ss a'));
+        
+                    // Clear existing tasks
+                    var taskList = $('#taskList');
+                    taskList.empty();
+        
+                    // Add tasks to the list
+                    event.tasks.forEach(function(task) {
+                        var taskItem = $('<li>').text(task.description);
+                        if (task.completed) {
+                            taskItem.addClass('completed');
+                        }
+                        taskList.append(taskItem);
+                    });
+        
+                    // Clear and show the task form
+                    $('#newTaskDescription').val('');
+                    $('#addTaskForm').show();
+        
+                    // Set the current event ID for the task form
+                    $('#addTaskForm').data('event-id', event.id);
+        
+                    $('#eventModal').css('display', 'block');
+                }
+            });
+        
+            // Close the modal when clicking on <span> (x)
+            $('.close').on('click', function() {
+                $('#eventModal').css('display', 'none');
+            });
+        
+            // Close the modal when clicking outside of it
+            $(window).on('click', function(event) {
+                if (event.target == document.getElementById('eventModal')) {
+                    $('#eventModal').css('display', 'none');
+                }
+            });
+        
+            // Handle task form submission
+            $('#addTaskForm').submit(function(e) {
+                e.preventDefault();
+                var eventId = $(this).data('event-id');
+                var newTaskDescription = $('#newTaskDescription').val();
+                
+                $.post('/add_task', {
+                    event_id: eventId,
+                    task_description: newTaskDescription
+                }, function(response) {
+                    if (response.success) {
+                        $('#taskList').append($('<li>').text(newTaskDescription));
+                        $('#newTaskDescription').val('');
+                    }
+                });
+            });
+        });
+        </script>
 </body>
 </html>

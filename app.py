@@ -1,5 +1,3 @@
-# credits to https://www.youtube.com/watch?v=VXW2A4Q81Ok for tutorial on full calendar
-
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -99,24 +97,35 @@ def dashboard():
 def event_creation():
     if request.method == 'POST':
         event_name = request.form.get('name')
-        event_date = request.form.get('date')
-        event_time = request.form.get('time')
+        start_date = request.form.get('start_date')
+        start_time = request.form.get('start_time')
+        end_date = request.form.get('end_date')
+        end_time = request.form.get('end_time')
         event_desc = request.form.get('event_description')
         
-        # Combine date and time
-        start_datetime = f"{event_date}T{event_time}"
-        
-        end_datetime = end_datetime.isoformat()
+        # Check if all date and time fields are provided
+        if start_date and start_time and end_date and end_time:
+            # Combine date and time for start and end
+            start_datetime = f"{start_date}T{start_time}"
+            end_datetime = f"{end_date}T{end_time}"
+        else:
+            flash('Please provide both start and end date and time for the event.', 'error')
+            return redirect(url_for('event_creation'))
 
-        db = get_db()
-        db.execute('INSERT INTO events (user_id, name, start_date, end_date, description) VALUES (?, ?, ?, ?, ?)',
-                   (session['user_id'], event_name, start_datetime, end_datetime, event_desc))
-        db.commit()
-        
-        flash('Event created successfully!', 'success')
-        return redirect(url_for('dashboard'))
-    else:
-        return render_template('eventcreation.html')
+        try:
+            db = get_db()
+            db.execute('INSERT INTO events (user_id, name, start_date, end_date, description) VALUES (?, ?, ?, ?, ?)',
+                       (session['user_id'], event_name, start_datetime, end_datetime, event_desc))
+            db.commit()
+            flash('Event created successfully!', 'success')
+            return redirect(url_for('dashboard'))
+        except sqlite3.Error as e:
+            db.rollback()
+            flash(f'An error occurred: {str(e)}', 'error')
+        finally:
+            db.close()
+
+    return render_template('eventcreation.html')
 
 @app.route('/calendar')
 @login_required
@@ -155,5 +164,6 @@ def add_task():
     db.commit()
     
     return jsonify({'success': True})
+
 if __name__ == '__main__':
     app.run(debug=True, port=3333)

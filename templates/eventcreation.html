@@ -1,19 +1,19 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset='utf-8'>
-	<link rel='stylesheet' href = "{{ url_for('static', filename='style.css') }}">
-	<title>Student Dashboard Home</title>
+    <meta charset='utf-8'>
+    <link rel='stylesheet' href = "{{ url_for('static', filename='style.css') }}">
+    <title>Student Dashboard Home</title>
 </head>
 <body>
     <center>
         <nav class="navbar">
-			<ul>
+            <ul>
                 <li><a href='/dashboard'>Home</a></li>
-				<li><a href='/profile'>Account</a></li>
-				<li><a href='https://github.com/bcript/'>About Me</a></li>
+                <li><a href='https://github.com/bcript/'>About Me</a></li>
                 <li><a href='/logout'>Logout</a></li>
-			</ul>
+            </ul>
         </nav>
     </center>
     <!-- 1. To add a feature where the date and time is chosen from a calendar UI to ensure effective booking
@@ -21,16 +21,16 @@
     <center>
         <form class="create_event" method="POST" onsubmit="return validateForm()">
             <label for="name">Name of event:&nbsp;</label>
-            <input type="text" name="name" id="name" placeholder="Name of event?"><br>
+            <input type="text" name="name" id="name" placeholder="Name of event?" required><br>
             <!-- temporary -->
             <label for="start_date">Start event date:&nbsp;</label>
-            <input type="date" name="start_date" id="start_date" placeholder="Start date of event?"><br>
+            <input type="date" name="start_date" id="start_date" placeholder="Start date of event?" required><br>
             <label for="start_time">Start event time:</label>
-            <input type="time" name="start_time" id="start_time" placeholder="Start time of event?"><br>
+            <input type="time" name="start_time" id="start_time" placeholder="Start time of event?" required><br>
             <label for="end_date">End event date:&nbsp;</label>
-            <input type="date" name="end_date" id="end_date" placeholder="End date of event?"><br>
+            <input type="date" name="end_date" id="end_date" placeholder="End date of event?" required><br>
             <label for="end_time">End event time:</label>
-            <input type="time" name="end_time" id="end_time" placeholder="End time of event?"><br>  
+            <input type="time" name="end_time" id="end_time" placeholder="End time of event?" required><br>  
             <!-- temporary -->
             <label for="description">Description of event:</label><br>
             <textarea name="event_description" rows="4" cols="50" placeholder="Description of event?"></textarea>
@@ -39,16 +39,22 @@
     </center>
 
     <script>
-    function validateForm() {
-        var startDate = new Date(document.getElementById('start_date').value + 'T' + document.getElementById('start_time').value);
-        var endDate = new Date(document.getElementById('end_date').value + 'T' + document.getElementById('end_time').value);
+        function validateForm() {
+            var startDate = new Date(document.getElementById('start_date').value + 'T' + document.getElementById('start_time').value);
+            var endDate = new Date(document.getElementById('end_date').value + 'T' + document.getElementById('end_time').value);
 
-        if (endDate <= startDate) {
-            alert('End date and time must be after start date and time.');
-            return false;
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                window.alert("Please enter valid date and time for both start and end of the event.");
+                return false;
+            }
+
+            if (endDate <= startDate) {
+                window.alert("End date and time must be after the start date and time.");
+                return false;
+            }
+
+            return true;
         }
-        return true;
-    }
     </script>
 </body>
 </html>

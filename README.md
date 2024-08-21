@@ -1,11 +1,11 @@
 # Process
 July 23: </br>
-Added register and login function
-July 30:
-Added password hashing and other pages
-Added creation of events and a calendar to view events
-August 11:
-Added function to add tasks
+Added register and login function</br>
+July 30:</br>
+Added password hashing and other pages</br>
+Added creation of events and a calendar to view events</br>
+August 11:</br>
+Added function to add tasks</br>
 
 # Event Management
 Create events using create events button
